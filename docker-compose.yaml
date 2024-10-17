@@ -1,0 +1,5 @@
+services:
+  php:
+    image: matheusbloise/php:8.2-fpm-alpine-dev
+    volumes:
+      - ./:/app
