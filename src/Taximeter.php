@@ -6,6 +6,10 @@ namespace App;
 
 class Taximeter
 {
+    const OVERNIGHT_START = 22;
+    const OVERNIGHT_END = 6;
+    const SUNDAY = 0;
+
     /**
      * Domingo: 0
      * Segunda-feira: 1
@@ -15,22 +19,27 @@ class Taximeter
      * Sexta-feira: 5
      * Sábado: 6
      */
-    public function calcTrip($day, $hour, $dist)
+    public function calcTrip(int $day, int $hour, int $distance): float|int
     {
-        if ($hour != null) {
-            if ($hour > 22 || $hour < 6) {
-                //return $dist * 3;
-                return $dist * 3.9;
-            } else {
-                if ($day === 0) {
-                    //return $dist * 2.2;
-                    return $dist * 3;
-                } else {
-                    return $dist * 2.1;
-                }
-            }
-        } else {
+        if ($this->isInvalidInput($hour)) {
             return -1;
         }
+        if ($this->isOvernight($hour)) {
+            return $distance * 3.9;
+        }
+        if ($day === self::SUNDAY) {
+            return $distance * 3;
+        }
+        return $distance * 2.1;
+    }
+
+    private function isOvernight(int $hour): bool
+    {
+        return $hour > self::OVERNIGHT_START || $hour < self::OVERNIGHT_END;
+    }
+
+    private function isInvalidInput(?int $hour): bool
+    {
+        return $hour < 0 || $hour > 23;
     }
 }

@@ -33,7 +33,7 @@ class TaximeterTest extends TestCase
     public function testShouldNotProcessInvalidInput(): void
     {
         $taximeter = new Taximeter();
-        $dist = $taximeter->calcTrip(1, null, 1000);
+        $dist = $taximeter->calcTrip(1, 25, 1000);
         $this->assertEquals(-1, $dist);
     }
 }
